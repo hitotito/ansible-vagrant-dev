@@ -5,35 +5,35 @@
 
 - name: create development group
   group:
-    name: "{{ vagrant_development_username }}"
-    gid: "{{ vagrant_development_groupid }}"
+    name: "{{ vagrant_dev_username }}"
+    gid: "{{ vagrant_dev_groupid }}"
     state: present
 
 - name: create development user
   user:
-    name: "{{ vagrant_development_username }}"
+    name: "{{ vagrant_dev_username }}"
     comment: "development user"
-    uid: "{{ vagrant_development_userid }}"
-    shell: "{{ vagrant_development_shell }}"
-    groups: "{{ vagrant_development_username }},hitotito-dev,sudo,staff"
-    home: "{{ vagrant_development_homedir }}"
+    uid: "{{ vagrant_dev_userid }}"
+    shell: "{{ vagrant_dev_shell }}"
+    groups: "{{ vagrant_dev_username }},hitotito-dev,sudo,staff"
+    home: "{{ vagrant_dev_homedir }}"
 
 - name: set authorized key
   authorized_key:
-    user: "{{ vagrant_development_username }}"
+    user: "{{ vagrant_dev_username }}"
     state: present
-    key: "{{ lookup('file', vagrant_development_public_key) }}"
+    key: "{{ lookup('file', vagrant_dev_public_key) }}"
 
 - name: install development environment packages
   apt:
     name: "{{ item }}"
     state: latest
     update_cache: true
-  with_items: "{{ vagrant_development_packages }}"
+  with_items: "{{ vagrant_dev_packages }}"
 
 #TODO - This should be expanded or removed
 - name: create workspace symlink
   file:
     src: "/mnt/workspace"
-    dest: "{{ vagrant_development_homedir }}/workspace"
+    dest: "{{ vagrant_dev_homedir }}/workspace"
     state: link
