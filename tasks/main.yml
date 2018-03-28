@@ -1,0 +1,39 @@
+- name: enable backports repo
+  apt_repository:
+      repo: deb http://ftp.debian.org/debian stretch-backports main
+      state: present
+
+- name: create development group
+  group:
+    name: "{{ vagrant_development_username }}"
+    gid: "{{ vagrant_development_groupid }}"
+    state: present
+
+- name: create development user
+  user:
+    name: "{{ vagrant_development_username }}"
+    comment: "development user"
+    uid: "{{ vagrant_development_userid }}"
+    shell: "{{ vagrant_development_shell }}"
+    groups: "{{ vagrant_development_username }},hitotito-dev,sudo,staff"
+    home: "{{ vagrant_development_homedir }}"
+
+- name: set authorized key
+  authorized_key:
+    user: "{{ vagrant_development_username }}"
+    state: present
+    key: "{{ lookup('file', vagrant_development_public_key) }}"
+
+- name: install development environment packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+  with_items: "{{ vagrant_development_packages }}"
+
+#TODO - This should be expanded or removed
+- name: create workspace symlink
+  file:
+    src: "/mnt/workspace"
+    dest: "{{ vagrant_development_homedir }}/workspace"
+    state: link

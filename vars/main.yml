@@ -1,0 +1,1 @@
+vagrant_development_homedir: "/home/{{ vagrant_development_username }}"

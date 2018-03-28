@@ -1,0 +1,12 @@
+vagrant_development_public_key: ~/.ssh/id_rsa.pub
+vagrant_development_group: vagrant
+vagrant_development_username: vagrant
+vagrant_development_userid: 1100
+vagrant_development_groupid: 1100
+vagrant_development_shell: /bin/bash
+vagrant_development_packages:
+  - build-essential
+  - devscripts
+  - libffi-dev
+  - tree
+  - stress
