@@ -5,8 +5,14 @@ vagrant_dev_userid: 1100
 vagrant_dev_groupid: 1100
 vagrant_dev_shell: /bin/bash
 vagrant_dev_packages:
+  - apache2-utils
   - build-essential
+  - curl
   - devscripts
+  - htop
   - libffi-dev
   - tree
+  - silversearcher-ag
   - stress
+  - tmux
+  - vim
