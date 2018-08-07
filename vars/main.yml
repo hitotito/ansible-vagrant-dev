@@ -1,1 +1,9 @@
+# create homedir variable from username
 vagrant_dev_homedir: "/home/{{ vagrant_dev_username }}"
+
+# powerline variables
+default_powerline_info: {
+  'installed': false
+}
+vagrant_dev_root_powerline_info: "{{ hostvars[inventory_hostname].ansible_local.hitotito_vagrant_dev.vagrant_dev.powerline['root'] | default(default_powerline_info)}}"
+vagrant_dev_user_powerline_info: "{{ hostvars[inventory_hostname].ansible_local.hitotito_vagrant_dev.vagrant_dev.powerline[vagrant_dev_username] | default(default_powerline_info)}}"

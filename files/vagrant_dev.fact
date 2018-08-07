@@ -1,6 +1,16 @@
 #!/usr/bin/python
 import json
+import os
 import subprocess
+
+def _powerline_check(user_home_dir):
+    POWERLINE_BIN_PATH = os.path.join(user_home_dir, ".local/bin/powerline")
+    CMD_STAT = ['stat', POWERLINE_BIN_PATH]
+    (out, err) = subprocess.Popen(CMD_STAT,
+                                  stdout=subprocess.PIPE,
+                                  stderr=subprocess.PIPE).communicate()
+    return out != ''
+
 
 def vagrant_dev_facts():
     """
@@ -8,19 +18,25 @@ def vagrant_dev_facts():
     """
     powerline_installed = False
     powerline_path = None
+    powerline_info = {}
     try:
-        CMD_WHICH = ['which', 'powerline']
-        (powerline_path, err) = subprocess.Popen(CMD_WHICH, stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()
-        powerline_installed = True
+        HOME_DIR = '/home'
+        for user_with_homedir in next(os.walk('/home'))[1]:
+            USER_HOME_DIR = os.path.join(HOME_DIR, user_with_homedir)
+            powerline_info[user_with_homedir] = {
+                'installed': _powerline_check(USER_HOME_DIR)
+            }
+        
+        powerline_info['root'] = {
+            'installed': _powerline_check('/root')
+        }
     except:
         pass
     finally:
         return {
-            "powerline": {
-                "installed": powerline_installed,
-                "path": powerline_path[:-1],
-            }
+            "powerline": powerline_info,
         }
+
 
 if __name__ == '__main__':
     print json.dumps({

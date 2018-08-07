@@ -12,8 +12,9 @@
         state: link
 
     - name: install powerline
-      when: vagrant_dev_powerline_status and 
-            not hostvars[inventory_hostname].ansible_local.hitotito_vagrant_dev.vagrant_dev.powerline.installed
+      when: 
+        - vagrant_dev_powerline_status
+        - not vagrant_dev_user_powerline_info.installed
       block:
         - name: install required packages
           pip:
