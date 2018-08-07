@@ -10,6 +10,7 @@ vagrant_dev_packages:
   - curl
   - devscripts
   - htop
+  - jq
   - libffi-dev
   - python-pip
   - silversearcher-ag
