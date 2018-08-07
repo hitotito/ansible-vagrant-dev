@@ -1,0 +1,62 @@
+---
+#TODO - This should be expanded or removed
+- name: customize personal settings
+  become: true
+  become_user: "{{ vagrant_dev_username }}"
+  block:
+    - name: create workspace symlink
+      when: vagrant_dev_workspace_shortcut
+      file:
+        src: "/mnt/workspace"
+        dest: "{{ vagrant_dev_homedir }}/workspace"
+        state: link
+
+    - name: install powerline
+      when: vagrant_dev_powerline_status and 
+            not hostvars[inventory_hostname].ansible_local.hitotito_vagrant_dev.vagrant_dev.powerline.installed
+      block:
+        - name: install required packages
+          pip:
+            name: "{{ item }}"
+            extra_args: --user
+          with_items:
+            - powerline-status
+            - powerline-gitstatus
+
+        - name: copy powerline configuration files
+          copy:
+            src: "powerline/"
+            dest: "{{ vagrant_dev_homedir }}/.local/lib/python2.7/site-packages/powerline/config_files"
+            mode: 0644
+            directory_mode: 0755
+
+    - name: enable personalized bashrc
+      when: vagrant_dev_personal_bashrc_enabled
+      copy:
+        src: "{{ vagrant_dev_personal_bashrc_path }}"
+        dest: "{{ vagrant_dev_homedir }}/.bashrc_personal"
+        mode: 0644
+
+    - name: enable personalized vim
+      when: vagrant_dev_personal_vim_enabled
+      block:
+        - name: install vim-nox for python support
+          when: vagrant_dev_personal_vim_enabled
+          become: tru
+          become_user: root
+          apt:
+            name: vim-nox
+            state: installed
+
+        - name: copy .vimrc file
+          copy:
+            src: "{{ vagrant_dev_personal_vimrc_path }}"
+            dest: "{{ vagrant_dev_homedir }}/.vimrc"
+            mode: 0644
+
+        - name: create .vim directory symlink
+          file:
+            src: "{{ vagrant_dev_personal_vim_remote_dir }}"
+            dest: "{{ vagrant_dev_homedir }}/.vim"
+            state: link
+            force: yes

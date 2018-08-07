@@ -1,5 +1,6 @@
 ---
 galaxy_info:
+  role_name: vagrant-dev
   author: Hitoshi Okonogi
   description: role to install vagrant development dependencies
   company: hitotito
@@ -13,3 +14,8 @@ galaxy_info:
   galaxy_tags:
     - development
     - vagrant
+
+dependencies:
+  - role: hitotito.custom-facts
+    custom_facts_name: hitotito_vagrant_dev
+    custom_facts_file: vagrant_dev.fact

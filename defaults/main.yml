@@ -11,8 +11,22 @@ vagrant_dev_packages:
   - devscripts
   - htop
   - libffi-dev
-  - tree
+  - python-pip
   - silversearcher-ag
   - stress
   - tmux
+  - tree
   - vim
+
+# Optional
+vagrant_dev_motd_override_enabled: true
+
+vagrant_dev_personal_bashrc_enabled: true
+vagrant_dev_personal_bashrc_path: ~/.bashrc
+
+vagrant_dev_personal_vim_enabled: true
+vagrant_dev_personal_vimrc_path: ~/.vimrc
+vagrant_dev_personal_vim_remote_dir: /mnt/.vim  # should share this directory
+
+vagrant_dev_powerline_status: true
+vagrant_dev_workspace_shortcut: true

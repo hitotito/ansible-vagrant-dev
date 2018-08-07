@@ -1,0 +1,56 @@
+---
+- name: enable backports repo
+  apt_repository:
+      repo: deb http://ftp.debian.org/debian stretch-backports main
+      state: present
+
+- name: create development group
+  group:
+    name: "{{ vagrant_dev_username }}"
+    gid: "{{ vagrant_dev_groupid }}"
+    state: present
+
+- name: create development user
+  user:
+    name: "{{ vagrant_dev_username }}"
+    comment: "development user"
+    uid: "{{ vagrant_dev_userid }}"
+    shell: "{{ vagrant_dev_shell }}"
+    groups: "{{ vagrant_dev_username }},hitotito-dev,sudo,staff"
+    home: "{{ vagrant_dev_homedir }}"
+
+- name: set authorized key
+  authorized_key:
+    user: "{{ vagrant_dev_username }}"
+    state: present
+    key: "{{ lookup('file', vagrant_dev_public_key) }}"
+
+- name: install development environment packages
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: true
+  with_items: "{{ vagrant_dev_packages }}"
+
+- name: copy root .bashrc
+  template:
+    src: .bashrc.root.j2
+    dest: "/root/.bashrc"
+    owner: "root"
+    group: "root"
+    mode: 0644
+
+- name: copy user .bash_profile
+  template:
+    src: .bash_profile.j2
+    dest: "{{ vagrant_dev_homedir }}/.bash_profile"
+    owner: "{{ vagrant_dev_username }}"
+    group: "{{ vagrant_dev_group }}"
+    mode: 0644
+
+- name: override motd
+  when: vagrant_dev_motd_override_enabled
+  copy:
+    src: motd
+    dest: /etc/motd
+    mode: 0644
