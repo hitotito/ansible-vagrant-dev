@@ -17,5 +17,6 @@ galaxy_info:
 
 dependencies:
   - role: hitotito.custom-facts
+    tags: always
     custom_facts_name: hitotito_vagrant_dev
     custom_facts_file: vagrant_dev.fact
