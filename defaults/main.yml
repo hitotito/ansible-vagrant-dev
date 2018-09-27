@@ -25,6 +25,9 @@ vagrant_dev_motd_override_enabled: true
 vagrant_dev_personal_bashrc_enabled: true
 vagrant_dev_personal_bashrc_path: ~/.bashrc
 
+vagrant_dev_personal_tmux_enabled: true
+vagrant_dev_personal_tmuxconf_path: ~/.tmux.conf
+
 vagrant_dev_personal_vim_enabled: true
 vagrant_dev_personal_vimrc_path: ~/.vimrc
 vagrant_dev_personal_vim_remote_dir: /mnt/.vim  # should share this directory

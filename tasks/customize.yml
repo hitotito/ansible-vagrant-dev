@@ -38,6 +38,13 @@
         dest: "{{ vagrant_dev_homedir }}/.bashrc_personal"
         mode: 0644
 
+    - name: enable personalized tmux
+      when: vagrant_dev_personal_tmux_enabled
+      copy:
+        src: "{{ vagrant_dev_personal_tmuxconf_path }}"
+        dest: "{{ vagrant_dev_homedir }}/.tmux.conf"
+        mode: 0644
+
     - name: enable personalized vim
       when: vagrant_dev_personal_vim_enabled
       block:
