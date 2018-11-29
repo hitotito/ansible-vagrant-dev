@@ -1,8 +1,9 @@
 ---
 - name: COMMON | Enable backports repo
   apt_repository:
-      repo: deb http://ftp.debian.org/debian stretch-backports main
-      state: present
+    repo: deb http://ftp.debian.org/debian stretch-backports main
+    filename: stretch-backports
+    state: present
 
 - name: COMMON | Create development group
   group:
