@@ -18,6 +18,7 @@ vagrant_dev_packages:
   - tmux
   - tree
   - vim
+  - wget
 
 # Optional
 vagrant_dev_motd_override_enabled: true
@@ -31,6 +32,24 @@ vagrant_dev_personal_tmuxconf_path: ~/.tmux.conf
 vagrant_dev_personal_vim_enabled: true
 vagrant_dev_personal_vimrc_path: ~/.vimrc
 vagrant_dev_personal_vim_remote_dir: /mnt/.vim  # should share this directory
+
+vagrant_dev_pyenv_enabled: false
+vagrant_dev_pyenv_python_versions:
+  - 3.7.0
+vagrant_dev_pyenv_python_version: 3.7.0
+vagrant_dev_pyenv_packages:
+  - libbz2-dev
+  - libreadline-dev
+  - libsqlite3-dev
+  - libssl-dev # for 3.7.0
+  # - libssl1.0-dev # for 3.5.2
+  - liblzma-dev
+  - libncurses5-dev
+  - libncursesw5-dev
+  - llvm
+  - tk-dev
+  - xz-utils
+  - zlib1g-dev
 
 vagrant_dev_powerline_status: true
 vagrant_dev_workspace_shortcut: true

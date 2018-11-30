@@ -40,13 +40,18 @@
     group: "root"
     mode: 0644
 
-- name: COMMON | Copy user .bash_profile
+- name: COMMON | Copy user dot files
   template:
-    src: .bash_profile.j2
-    dest: "{{ vagrant_dev_homedir }}/.bash_profile"
+    src: "{{ item.src }}"
+    dest: "{{ vagrant_dev_homedir }}/{{ item.dest }}"
     owner: "{{ vagrant_dev_username }}"
     group: "{{ vagrant_dev_group }}"
     mode: 0644
+  with_items:
+    - src: .bash_profile.j2
+      dest: .bash_profile
+    - src: .bashrc.user.j2
+      dest: .bashrc
 
 - name: COMMON | Override motd
   when: vagrant_dev_motd_override_enabled

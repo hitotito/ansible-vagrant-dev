@@ -1,0 +1,58 @@
+---
+- name: PYENV | Install dependency packages
+  apt:
+    name: "{{ vagrant_dev_pyenv_packages }}"
+    state: present
+
+- name: PYENV | Install pyenv and configure
+  become: true
+  become_user: "{{ vagrant_dev_username }}"
+  block:
+    - name: PYENV | Check pyenv is already installed
+      stat:
+        path: "{{ vagrant_dev_pyenv_dir }}/bin/pyenv"
+      register: _pyenv_executable_stat
+     
+    - name: PYENV | Install pyenv
+      when: _pyenv_executable_stat.stat.exists == False
+      block:
+        - name: PYENV | Fetch pyenv installer script
+          get_url:
+            url: https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer
+            dest: /tmp/pyenv-installer
+            mode: 0755
+
+        - name: PYENV | Install pyenv
+          shell: |
+            bash /tmp/pyenv-installer
+          args:
+            executable: /bin/bash
+            chdir: "{{ vagrant_dev_homedir }}"
+            creates: "{{ vagrant_dev_pyenv_dir }}"
+
+      always:
+        - name: PYENV | Clean up pyenv-installer
+          file:
+            path: /tmp/pyenv-installer
+            state: absent
+
+    - name: PYENV | Download specified python version
+      with_items: "{{ vagrant_dev_pyenv_python_versions }}"
+      shell: |
+        "{{ vagrant_dev_pyenv_dir }}/bin/pyevn" install "{{ item }}" | cat
+      args:
+        executable: /bin/bash
+        creates: "{{ vagrant_dev_pyenv_dir }}/versions/{{ item }}/"
+
+    - name: PYENV | Find current pyenv python version
+      shell: cat "{{ vagrant_dev_pyenv_dir }}/version" 2>/dev/null || echo 0
+      args:
+        executable: /bin/bash
+      changed_when: false
+      register: _pyenv_global_version
+
+    - name: PYENV | Set global python version
+      when:
+        - _pyenv_global_version.stdout != vagrant_dev_pyenv_python_version
+      shell: |
+        "{{ vagrant_dev_pyenv_dir }}/bin/pyenv" global "{{ vagrant_dev_pyenv_python_version }}" | cat

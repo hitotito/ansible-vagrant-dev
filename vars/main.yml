@@ -1,5 +1,6 @@
 # create homedir variable from username
 vagrant_dev_homedir: "/home/{{ vagrant_dev_username }}"
+vagrant_dev_pyenv_dir: "{{ vagrant_dev_homedir }}/.pyenv"
 
 # powerline variables
 default_powerline_info: {

@@ -3,6 +3,11 @@
   import_tasks: common.yml
   tags: always
 
+- name: install pyenv and specified python version
+  when: vagrant_dev_pyenv_enabled
+  import_tasks: pyenv.yml
+  tags: pyenv
+
 - name: customize individual preference
   import_tasks: customize.yml
   tags: customize
