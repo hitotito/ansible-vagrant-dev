@@ -39,7 +39,7 @@
     - name: PYENV | Download specified python version
       with_items: "{{ vagrant_dev_pyenv_python_versions }}"
       shell: |
-        "{{ vagrant_dev_pyenv_dir }}/bin/pyevn" install "{{ item }}" | cat
+        "{{ vagrant_dev_pyenv_dir }}/bin/pyenv" install "{{ item }}" | cat
       args:
         executable: /bin/bash
         creates: "{{ vagrant_dev_pyenv_dir }}/versions/{{ item }}/"
