@@ -14,7 +14,7 @@
       register: _pyenv_executable_stat
 
     - name: PYENV | Install pyenv
-      when: _pyenv_executable_stat.stat.exists == False
+      when: not _pyenv_executable_stat.stat.exists
       block:
         - name: PYENV | Fetch pyenv installer script
           get_url:
