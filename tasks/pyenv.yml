@@ -39,13 +39,14 @@
     - name: PYENV | Download specified python version
       with_items: "{{ vagrant_dev_pyenv_python_versions }}"
       shell: |
-        "{{ vagrant_dev_pyenv_dir }}/bin/pyenv" install "{{ item }}" | cat
+        {{ vagrant_dev_pyenv_dir }}/bin/pyenv install {{ item }} | cat
       args:
         executable: /bin/bash
         creates: "{{ vagrant_dev_pyenv_dir }}/versions/{{ item }}/"
 
     - name: PYENV | Find current pyenv python version
-      shell: cat "{{ vagrant_dev_pyenv_dir }}/version" 2>/dev/null || echo 0
+      shell: |
+        cat "{{ vagrant_dev_pyenv_dir }}/version" 2>/dev/null || echo 0
       args:
         executable: /bin/bash
       changed_when: false
@@ -57,10 +58,12 @@
       block:
         - name: PYENV | Set global python version
           shell: |
-            "{{ vagrant_dev_pyenv_dir }}/bin/pyenv" global "{{ vagrant_dev_pyenv_python_version }}" | cat
+            {{ vagrant_dev_pyenv_dir }}/bin/pyenv global {{ vagrant_dev_pyenv_python_version }} | cat
 
         - name: PYENV | Upgrade pip version
           environment:
             http_proxy: "" #TODO - seems squid proxy is not working properly
-          command: |
-            "{{ vagrant_dev_pyenv_dir }}/versions/{{ vagrant_dev_pyenv_python_version }}/bin/pip install --upgrade pip"
+          shell: |
+            {{ vagrant_dev_pyenv_dir }}/versions/{{ vagrant_dev_pyenv_python_version }}/bin/pip install --upgrade pip
+          args:
+            executable: /bin/bash
