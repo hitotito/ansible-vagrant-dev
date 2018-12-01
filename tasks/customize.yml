@@ -12,7 +12,7 @@
         state: link
 
     - name: CUSTOMIZE | Install powerline
-      when: 
+      when:
         - vagrant_dev_powerline_status
         - not vagrant_dev_user_powerline_info.installed
       block:

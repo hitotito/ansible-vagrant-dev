@@ -29,7 +29,7 @@
 - name: COMMON | Install development environment packages
   apt:
     name: "{{ vagrant_dev_packages }}"
-    state: latest
+    state: present
     update_cache: true
 
 - name: COMMON | Copy root .bashrc

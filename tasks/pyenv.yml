@@ -12,7 +12,7 @@
       stat:
         path: "{{ vagrant_dev_pyenv_dir }}/bin/pyenv"
       register: _pyenv_executable_stat
-     
+
     - name: PYENV | Install pyenv
       when: _pyenv_executable_stat.stat.exists == False
       block:
