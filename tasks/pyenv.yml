@@ -51,8 +51,16 @@
       changed_when: false
       register: _pyenv_global_version
 
-    - name: PYENV | Set global python version
+    - name: PYENV | Configure python version
       when:
         - _pyenv_global_version.stdout != vagrant_dev_pyenv_python_version
-      shell: |
-        "{{ vagrant_dev_pyenv_dir }}/bin/pyenv" global "{{ vagrant_dev_pyenv_python_version }}" | cat
+      block:
+        - name: PYENV | Set global python version
+          shell: |
+            "{{ vagrant_dev_pyenv_dir }}/bin/pyenv" global "{{ vagrant_dev_pyenv_python_version }}" | cat
+
+        - name: PYENV | Upgrade pip version
+          environment:
+            http_proxy: "" #TODO - seems squid proxy is not working properly
+          command: |
+            "{{ vagrant_dev_pyenv_dir }}/versions/{{ vagrant_dev_pyenv_python_version }}/bin/pip install --upgrade pip"
