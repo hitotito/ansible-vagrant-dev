@@ -8,6 +8,18 @@
   import_tasks: pyenv.yml
   tags: pyenv
 
+- name: install nvm and specified nodejs version
+  when: vagrant_dev_nodejs_enabled
+  include_role:
+    name: hitotito.nodejs
+    tasks_from: install_nvm
+  vars:
+    nodejs_nvm_enabled: true
+    nodejs_user: "{{ vagrant_dev_user }}"
+    nodejs_group: "{{ vagrant_dev_group }}"
+    nodejs_nvm_version: "{{ vagrant_dev_nodejs_nvm_version }}"
+    nodejs_version: "{{ vagrant_dev_nodejs_version }}"
+
 - name: customize individual preference
   import_tasks: customize.yml
   tags: customize

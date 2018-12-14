@@ -33,6 +33,10 @@ vagrant_dev_personal_vim_enabled: true
 vagrant_dev_personal_vimrc_path: ~/.vimrc
 vagrant_dev_personal_vim_remote_dir: /mnt/.vim  # should share this directory
 
+vagrant_dev_nodejs_enabled: false
+vagrant_dev_nodejs_nvm_version: 0.33.11 #TODO - use latest
+vagrant_dev_nodejs_version: 10.14.1
+
 vagrant_dev_pyenv_enabled: false
 vagrant_dev_pyenv_python_versions:
   - 3.7.0
