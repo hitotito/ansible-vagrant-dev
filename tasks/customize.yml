@@ -19,8 +19,11 @@
         - name: CUSTOMIZE | Install required packages
           pip:
             name:
-              - powerline-status
-              - powerline-gitstatus
+              # somehow pip repository does not recognize these packages sometimes
+              # - powerline-status
+              # - powerline-gitstatus
+              - git+git://github.com/powerline/powerline
+              - git+https://github.com/jaspernbrouwer/powerline-gitstatus.git
             extra_args: --user
 
         - name: CUSTOMIZE | Copy powerline configuration files
