@@ -35,10 +35,23 @@ def vagrant_dev_facts():
     finally:
         return {
             "powerline": powerline_info,
+
         }
 
+def os_version_codename():
+    codename = None
+    try:
+        # read from /etc/os-release
+        with open("/etc/os-release", 'r') as f:
+            for line in f:
+                if "VERSION_CODENAME" in line:
+                    return line.split("=")[1].strip()
+    except:
+        pass
+    return codename
 
 if __name__ == '__main__':
     print json.dumps({
         "vagrant_dev": vagrant_dev_facts(),
+        "os_version_codename": os_version_codename(),
     }, sort_keys=True)

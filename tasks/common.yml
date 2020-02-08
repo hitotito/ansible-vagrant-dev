@@ -1,8 +1,8 @@
 ---
 - name: COMMON | Enable backports repo
   apt_repository:
-    repo: deb http://deb.debian.org/debian stretch-backports main
-    filename: stretch-backports
+    repo: "deb http://deb.debian.org/debian {{ vagrant_dev_os_version_codename }}-backports main"
+    filename: "{{ vagrant_dev_os_version_codename }}-backports"
     state: present
 
 - name: COMMON | Create development group
@@ -30,6 +30,7 @@
   apt:
     name: "{{ vagrant_dev_packages }}"
     state: present
+    autoclean: true
     update_cache: true
 
 - name: COMMON | Copy root .bashrc

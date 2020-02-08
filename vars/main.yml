@@ -2,6 +2,9 @@
 vagrant_dev_homedir: "/home/{{ vagrant_dev_username }}"
 vagrant_dev_pyenv_dir: "{{ vagrant_dev_homedir }}/.pyenv"
 
+# os info
+vagrant_dev_os_version_codename: "{{ hostvars[inventory_hostname].ansible_local.hitotito_vagrant_dev.os_version_codename | default('') }}"
+
 # powerline variables
 default_powerline_info: {
   'installed': false
