@@ -1,4 +1,13 @@
 ---
+- name: CUSTOMIZE | 
+  become: true
+  apt:
+    name: "{{ vagrant_dev_extra_packages }}"
+    state: present
+    autoclean: true
+    update_cache: true
+
+
 #TODO - This should be expanded or removed
 - name: CUSTOMIZE | Customize personal settings
   become: true
