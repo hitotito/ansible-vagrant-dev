@@ -57,6 +57,6 @@
 - name: COMMON | Override motd
   when: vagrant_dev_motd_override_enabled
   copy:
-    src: motd
+    src: "{{ vagrant_dev_motd_override_file }}"
     dest: /etc/motd
     mode: 0644

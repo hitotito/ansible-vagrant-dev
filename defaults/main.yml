@@ -23,6 +23,7 @@ vagrant_dev_extra_packages: []
 
 # Optional
 vagrant_dev_motd_override_enabled: true
+vagrant_dev_motd_override_file: motd
 
 vagrant_dev_personal_bashrc_enabled: true
 vagrant_dev_personal_bashrc_path: ~/.bashrc
