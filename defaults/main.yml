@@ -1,6 +1,11 @@
 vagrant_dev_public_key: ~/.ssh/id_rsa.pub
-vagrant_dev_group: vagrant
+# if group is not specified, we will default to `vagrant_dev_username`. This default filter is applied
+# in vars/main.yml.  Throughout this role, we will use `_vagrant_dev_group` for group
+vagrant_dev_group: ""
 vagrant_dev_username: vagrant
+# vagrant_dev_group_additional is used to specify any other group(s) vagrant_dev_user is part of
+# this variable is list of <group string>
+vagrant_dev_group_additional: []
 vagrant_dev_userid: 1100
 vagrant_dev_groupid: 1100
 vagrant_dev_shell: /bin/bash

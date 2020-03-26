@@ -27,7 +27,7 @@
             bash /tmp/pyenv-installer
           args:
             executable: /bin/bash
-            chdir: "{{ vagrant_dev_homedir }}"
+            chdir: "{{ vagrant_dev_home_dir }}"
             creates: "{{ vagrant_dev_pyenv_dir }}"
 
       always:

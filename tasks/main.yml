@@ -16,7 +16,7 @@
   vars:
     nodejs_nvm_enabled: true
     nodejs_user: "{{ vagrant_dev_user }}"
-    nodejs_group: "{{ vagrant_dev_group }}"
+    nodejs_group: "{{ _vagrant_dev_group }}"
     nodejs_nvm_version: "{{ vagrant_dev_nodejs_nvm_version }}"
     nodejs_version: "{{ vagrant_dev_nodejs_version }}"
 

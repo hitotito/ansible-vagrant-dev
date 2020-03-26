@@ -7,9 +7,16 @@
 
 - name: COMMON | Create development group
   group:
-    name: "{{ vagrant_dev_username }}"
+    name: "{{ _vagrant_dev_group }}"
     gid: "{{ vagrant_dev_groupid }}"
     state: present
+
+- name: COMMON | Ensure additional groups exist
+  when: (vagrant_dev_group_additional | length > 0)
+  group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ vagrant_dev_group_additional }}"
 
 - name: COMMON | Create development user
   user:
@@ -17,8 +24,9 @@
     comment: "development user"
     uid: "{{ vagrant_dev_userid }}"
     shell: "{{ vagrant_dev_shell }}"
-    groups: "{{ vagrant_dev_username }},hitotito-dev,sudo,staff"
-    home: "{{ vagrant_dev_homedir }}"
+    group: "{{ _vagrant_dev_group }}"
+    groups: "{{ vagrant_dev_user_groups_always + vagrant_dev_group_additional }}"
+    home: "{{ vagrant_dev_home_dir }}"
 
 - name: COMMON | Set authorized key
   authorized_key:
@@ -44,9 +52,9 @@
 - name: COMMON | Copy user dot files
   template:
     src: "{{ item.src }}"
-    dest: "{{ vagrant_dev_homedir }}/{{ item.dest }}"
+    dest: "{{ vagrant_dev_home_dir }}/{{ item.dest }}"
     owner: "{{ vagrant_dev_username }}"
-    group: "{{ vagrant_dev_group }}"
+    group: "{{ _vagrant_dev_group }}"
     mode: 0644
   with_items:
     - src: .bash_profile.j2

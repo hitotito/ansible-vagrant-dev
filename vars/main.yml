@@ -1,6 +1,13 @@
 # create homedir variable from username
-vagrant_dev_homedir: "/home/{{ vagrant_dev_username }}"
-vagrant_dev_pyenv_dir: "{{ vagrant_dev_homedir }}/.pyenv"
+vagrant_dev_home_dir: "/home/{{ vagrant_dev_username }}"
+vagrant_dev_workspace_dir: "{{ vagrant_dev_home_dir }}/workspace"
+vagrant_dev_pyenv_dir: "{{ vagrant_dev_home_dir }}/.pyenv"
+
+_vagrant_dev_group: "{{ (vagrant_dev_group | length > 0) | ternary(vagrant_dev_group, vagrant_dev_username) }}"
+vagrant_dev_user_groups_always:
+  - hitotito-dev
+  - sudo
+  - staff
 
 # os info
 vagrant_dev_os_version_codename: "{{ hostvars[inventory_hostname].ansible_local.hitotito_vagrant_dev.os_version_codename | default('') }}"

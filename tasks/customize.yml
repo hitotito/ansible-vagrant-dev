@@ -17,7 +17,7 @@
       when: vagrant_dev_workspace_shortcut
       file:
         src: "/mnt/workspace"
-        dest: "{{ vagrant_dev_homedir }}/workspace"
+        dest: "{{ vagrant_dev_workspace_dir }}"
         state: link
 
     - name: CUSTOMIZE | Install powerline
@@ -38,7 +38,7 @@
         - name: CUSTOMIZE | Copy powerline configuration files
           copy:
             src: "powerline/"
-            dest: "{{ vagrant_dev_homedir }}/.local/lib/python2.7/site-packages/powerline/config_files"
+            dest: "{{ vagrant_dev_home_dir }}/.local/lib/python2.7/site-packages/powerline/config_files"
             mode: 0644
             directory_mode: 0755
 
@@ -46,14 +46,14 @@
       when: vagrant_dev_personal_bashrc_enabled
       copy:
         src: "{{ vagrant_dev_personal_bashrc_path }}"
-        dest: "{{ vagrant_dev_homedir }}/.bashrc_personal"
+        dest: "{{ vagrant_dev_home_dir }}/.bashrc_personal"
         mode: 0644
 
     - name: CUSTOMIZE | Enable personalized tmux
       when: vagrant_dev_personal_tmux_enabled
       copy:
         src: "{{ vagrant_dev_personal_tmuxconf_path }}"
-        dest: "{{ vagrant_dev_homedir }}/.tmux.conf"
+        dest: "{{ vagrant_dev_home_dir }}/.tmux.conf"
         mode: 0644
 
     - name: CUSTOMIZE | Enable personalized vim
@@ -70,12 +70,12 @@
         - name: CUSTOMIZE | Copy .vimrc file
           copy:
             src: "{{ vagrant_dev_personal_vimrc_path }}"
-            dest: "{{ vagrant_dev_homedir }}/.vimrc"
+            dest: "{{ vagrant_dev_home_dir }}/.vimrc"
             mode: 0644
 
         - name: CUSTOMIZE | Create .vim directory symlink
           file:
             src: "{{ vagrant_dev_personal_vim_remote_dir }}"
-            dest: "{{ vagrant_dev_homedir }}/.vim"
+            dest: "{{ vagrant_dev_home_dir }}/.vim"
             state: link
             force: yes
