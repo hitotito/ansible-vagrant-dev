@@ -1,5 +1,5 @@
 ---
-- name: CUSTOMIZE | 
+- name: CUSTOMIZE | Install extra packages
   become: true
   apt:
     name: "{{ vagrant_dev_extra_packages }}"
@@ -7,6 +7,15 @@
     autoclean: true
     update_cache: true
 
+- name: CUSTOMIZE | Add Google resolver
+  become: true
+  when: vagrant_dev_google_resolver
+  lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^nameserver 8.8.8.8$'
+    insertbefore: BOF
+    line: 'nameserver 8.8.8.8'
+    state: present
 
 #TODO - This should be expanded or removed
 - name: CUSTOMIZE | Customize personal settings
@@ -61,7 +70,7 @@
       block:
         - name: CUSTOMIZE | Install vim-nox for python support
           when: vagrant_dev_personal_vim_enabled
-          become: tru
+          become: true
           become_user: root
           apt:
             name: vim-nox

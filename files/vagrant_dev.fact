@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 import json
 import os
 import subprocess
@@ -51,7 +51,7 @@ def os_version_codename():
     return codename
 
 if __name__ == '__main__':
-    print json.dumps({
+    print(json.dumps({
         "vagrant_dev": vagrant_dev_facts(),
         "os_version_codename": os_version_codename(),
-    }, sort_keys=True)
+    }, sort_keys=True))
